@@ -52,9 +52,8 @@ public class Database {
     prep.executeUpdate();
     // Create
     prep = conn.prepareStatement("CREATE TABLE word("
-        + "corpus_id INTEGER UNIQUE,"
+        + "corpus_id INTEGER,"
         + "word TEXT,"
-        + "PRIMARY KEY (corpus_id),"
         + "FOREIGN KEY (corpus_id) REFERENCES corpus(id));"
         + "ON DELETE CASCADE ON UPDATE CASCADE);");
     prep.executeUpdate();
