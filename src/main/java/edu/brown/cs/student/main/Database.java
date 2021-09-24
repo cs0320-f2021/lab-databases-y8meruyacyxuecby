@@ -40,23 +40,18 @@ public class Database {
     Statement stat = conn.createStatement();
     stat.executeUpdate("PRAGMA foreign_keys=ON;");
     PreparedStatement prep;
-    // Create corpus table
-    prep = conn.prepareStatement("DROP TABLE IF EXISTS corpus;");
-    prep.executeUpdate();
-    prep = conn.prepareStatement("DROP TABLE IF EXISTS word;");
-    prep.executeUpdate();
-    prep = conn.prepareStatement("CREATE TABLE corpus("
-        + "id INTEGER,"
-        + "filename TEXT,"
-        + "PRIMARY KEY (id));");
-    prep.executeUpdate();
-    // Create
-    prep = conn.prepareStatement("CREATE TABLE word("
+    prep = conn.prepareStatement("CREATE TABLE IF NOT EXISTS word("
         + "corpus_id INTEGER,"
         + "word TEXT,"
-        + "FOREIGN KEY (corpus_id) REFERENCES corpus(id));"
-        + "ON DELETE CASCADE ON UPDATE CASCADE);");
+        + "PRIMARY KEY (corpus_id),"
+        + "FOREIGN KEY (corpus_id) REFERENCES corpus(id)"
+        + "ON DELETE CASCADE ON UPDATE CASCADE);"
+        + "CREATE TABLE IF NOT EXISTS corpus("
+        + "id INTEGER,"
+        + "filename TEXT,"
+        + "PRIMARY KEY (id), ON DELETE CASCADE ON UPDATE CASCADE);");
     prep.executeUpdate();
+    prep.close();
   }
 
 
